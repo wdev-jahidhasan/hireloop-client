@@ -98,7 +98,7 @@ export default function Navbar() {
           </Link>
 
           <Link
-            href="/register"
+            href="/auth/signup"
             className="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
           >
             Get Started
@@ -139,7 +139,7 @@ export default function Navbar() {
 
           <li>
             <Link
-              href="/register"
+              href="/auth/signup"
               onClick={() => setIsMenuOpen(false)}
               className="block rounded-xl bg-primary py-3 text-center font-semibold text-white transition hover:opacity-90"
             >
