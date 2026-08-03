@@ -91,7 +91,7 @@ export default function Navbar() {
         {/* Right Side */}
         <div className="hidden items-center gap-4 lg:flex">
           <Link
-            href="/login"
+            href="/auth/signin"
             className="text-sm font-medium text-default-600 transition-colors hover:text-primary"
           >
             Sign In
@@ -129,7 +129,7 @@ export default function Navbar() {
 
           <li className="mt-4 border-t border-default-200 pt-4">
             <Link
-              href="/login"
+              href="/auth/signin"
               onClick={() => setIsMenuOpen(false)}
               className="block rounded-lg px-3 py-3 text-center transition hover:bg-default-100"
             >

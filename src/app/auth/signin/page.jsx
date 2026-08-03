@@ -9,13 +9,12 @@ import {
   Button,
   Separator,
 } from "@heroui/react";
-import { Eye, EyeOff, Mail, Lock, User, AlertCircle, CheckCircle2 } from "lucide-react";
-import { signUp } from "@/lib/auth-client";
+import { Eye, EyeOff, Mail, Lock, AlertCircle, CheckCircle2 } from "lucide-react";
+import { signIn } from "@/lib/auth-client";
 
-export default function SignupPage() {
+export default function SigninPage() {
   const router = useRouter();
 
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -33,19 +32,19 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      const { data, error } = await signUp.email({
+      const { data, error } = await signIn.email({
         email,
         password,
-        name,
+        callbackURL: "/"
       });
 
       if (error) {
-        setErrorMessage(error.message || "Something went wrong. Please try again.");
+        setErrorMessage(error.message || "Invalid email or password.");
       } else {
-        setSuccessMessage("Account created successfully! Redirecting...");
+        setSuccessMessage("Logged in successfully! Redirecting...");
         setTimeout(() => {
-          router.push("auth/signin");
-        }, 2000);
+          router.push("/dashboard");
+        }, 1500);
       }
     } catch (err) {
       setErrorMessage("An unexpected error occurred. Please try again.");
@@ -59,10 +58,10 @@ export default function SignupPage() {
       <Card className="w-full max-w-md shadow-lg border border-default-100 p-2">
         <Card.Header className="flex flex-col gap-1 items-center pt-6 pb-2 text-center">
           <Card.Title className="text-2xl font-bold tracking-tight text-white">
-            Create an Account
+            Sign In
           </Card.Title>
           <Card.Description className="text-small text-default-400">
-            Sign up to get started with our platform
+            Sign in to access your account
           </Card.Description>
         </Card.Header>
 
@@ -82,25 +81,6 @@ export default function SignupPage() {
           )}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="name" className="text-sm font-medium text-slate-200">
-                Full Name <span className="text-danger">*</span>
-              </label>
-              <div className="relative flex items-center">
-                <User className="absolute left-3.5 text-default-400 pointer-events-none w-4 h-4 z-10" />
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Enter your name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  variant="bordered"
-                  className="pl-9"
-                />
-              </div>
-            </div>
-
             <div className="flex flex-col gap-1.5">
               <label htmlFor="email" className="text-sm font-medium text-slate-200">
                 Email Address <span className="text-danger">*</span>
@@ -157,19 +137,19 @@ export default function SignupPage() {
               className="w-full font-medium mt-2"
               isLoading={isLoading}
             >
-              {isLoading ? "Creating Account..." : "Sign Up"}
+              {isLoading ? "Signing In..." : "Sign In"}
             </Button>
           </form>
 
           <Separator className="my-6 bg-default-100" />
 
           <div className="text-center text-small text-default-400">
-            Already have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
-              href="/auth/signin"
+              href="/auth/signup"
               className="text-primary font-medium hover:underline transition-all"
             >
-              Sign In
+              Sign Up
             </Link>
           </div>
         </Card.Content>
