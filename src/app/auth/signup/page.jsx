@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Description, Label, Radio, RadioGroup } from "@heroui/react";
 import {
   Card,
   Input,
@@ -18,6 +19,7 @@ export default function SignupPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("seeker");
 
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +39,7 @@ export default function SignupPage() {
         email,
         password,
         name,
+        role
       });
 
       if (error) {
@@ -44,7 +47,7 @@ export default function SignupPage() {
       } else {
         setSuccessMessage("Account created successfully! Redirecting...");
         setTimeout(() => {
-          router.push("auth/signin");
+          router.push("/auth/signin");
         }, 2000);
       }
     } catch (err) {
@@ -149,6 +152,28 @@ export default function SignupPage() {
                   )}
                 </button>
               </div>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <Label>Select Your Role</Label>
+              <RadioGroup onChange={value => setRole(value)} defaultValue="seeker" name="role" orientation="horizontal">
+                <Radio selected value="seeker">
+                  <Radio.Content>
+                    <Radio.Control>
+                      <Radio.Indicator />
+                    </Radio.Control>
+                    Job Seeker
+                  </Radio.Content>
+                </Radio>
+                <Radio value="recruiter">
+                  <Radio.Content>
+                    <Radio.Control>
+                      <Radio.Indicator />
+                    </Radio.Control>
+                    Recruiter
+                  </Radio.Content>
+                </Radio>
+              </RadioGroup>
             </div>
 
             <Button

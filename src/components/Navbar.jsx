@@ -12,6 +12,7 @@ export default function Navbar() {
 
   const { data: session, isPending } = useSession();
   const user = session?.user;
+  console.log(session, isPending);
 
   const handleSignOut = async () => {
     await authClient.signOut({
@@ -78,7 +79,6 @@ export default function Navbar() {
             <div className="h-8 w-16 sm:w-20 animate-pulse rounded-lg bg-default-200" />
           ) : user ? (
             <div className="flex items-center gap-1.5 sm:gap-3">
-              {/* ছোট স্ক্রিনেও ইউজারের নাম সবসময় দেখাবে */}
               <span className="max-w-[80px] xs:max-w-[120px] sm:max-w-none truncate text-xs sm:text-sm font-medium text-default-700">
                 Hi, {user.name?.split(" ")[0]}!
               </span>

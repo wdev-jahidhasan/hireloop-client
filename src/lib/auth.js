@@ -1,6 +1,5 @@
 import dns from 'node:dns';
 
-// ১. Google DNS জোরপূর্বক সেট করা
 try {
   dns.setServers(['8.8.8.8', '8.8.4.4']);
 } catch (e) {
@@ -21,4 +20,12 @@ export const auth = betterAuth({
   database: mongodbAdapter(db, {
     client
   }),
+  user: {
+    additionalFields: {
+      role: {
+        default: "seeker"
+        
+      }
+    }
+  }
 });
