@@ -1,6 +1,4 @@
 import StatisticsSection from "@/components/StatisticsSection";
-import HeroSection from "@/components/StatisticsSection";
-import Image from "next/image";
 
 export default function Home() {
   return (
