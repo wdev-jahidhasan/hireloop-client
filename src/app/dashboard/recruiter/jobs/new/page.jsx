@@ -3,7 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Form, Button } from "@heroui/react";
+import { toast } from "sonner";
 import { Briefcase, Building, AlertCircle, CheckCircle2 } from "lucide-react";
+import { createJob } from "@/lib/actions/jobs";
 
 const PLAN_LIMITS = {
   free: 3,
@@ -67,7 +69,9 @@ export default function PostJobPage() {
       return;
     }
 
-    const formData = new FormData(e.currentTarget);
+    const formElement = e.currentTarget;
+    const formData = new FormData(formElement);
+
     const jobData = {
       title: formData.get("title"),
       category: formData.get("category"),
@@ -83,13 +87,19 @@ export default function PostJobPage() {
       benefits: formData.get("benefits"),
       companyId: companyInfo.id,
       status: "active",
+      isPubliclyVisible: true,
     };
 
+    setSubmitting(true);
+
     try {
-      setSubmitting(true);
-      console.log("Job Submitted Successfully:", jobData);
-      alert("Job posted successfully!");
-      router.push("/dashboard/recruiter/jobs");
+      const res = await createJob(jobData);
+      console.log("Job Submitted Successfully:", res || jobData);
+      toast.success("Job posted successfully!");
+      formElement.reset();
+      setIsRemote(false); 
+      router.push("/dashboard/recruiter");
+
     } catch (err) {
       console.error("Error posting job:", err);
       setErrors({ form: "Failed to post job. Please try again." });
@@ -169,7 +179,7 @@ export default function PostJobPage() {
 
       <div className="bg-[#18181b] border border-[#27272a] rounded-xl p-6 shadow-sm">
         <Form onSubmit={handleSubmit} className="space-y-8">
-          
+
           <fieldset className="space-y-4">
             <legend className="text-lg font-semibold text-white flex items-center gap-2 pb-2 border-b border-[#27272a] w-full">
               <Briefcase size={18} className="text-zinc-400" /> Job Information
@@ -278,7 +288,6 @@ export default function PostJobPage() {
                   </span>
                 </div>
 
-                {/* Pure HTML/Tailwind Bulletproof Custom Switch */}
                 <label className="relative inline-flex items-center cursor-pointer select-none">
                   <input
                     type="checkbox"
@@ -366,7 +375,7 @@ export default function PostJobPage() {
             >
               Cancel
             </Button>
-            
+
             <Button
               type="submit"
               isLoading={submitting}
