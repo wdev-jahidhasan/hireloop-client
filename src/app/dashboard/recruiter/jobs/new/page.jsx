@@ -70,21 +70,15 @@ export default function PostJobPage() {
     }
 
     const formElement = e.currentTarget;
+    
     const formData = new FormData(formElement);
+    const jobData = Object.fromEntries(formData.entries());
 
-    const jobData = {
-      title: formData.get("title"),
-      category: formData.get("category"),
-      type: formData.get("type"),
-      minSalary: formData.get("minSalary"),
-      maxSalary: formData.get("maxSalary"),
-      currency: formData.get("currency"),
-      location: isRemote ? "Remote" : formData.get("location"),
-      isRemote: isRemote,
-      deadline: formData.get("deadline"),
-      responsibilities: formData.get("responsibilities"),
-      requirements: formData.get("requirements"),
-      benefits: formData.get("benefits"),
+    // payload
+    const payload = {
+      ...jobData,
+      isRemote,
+      location: isRemote ? "Remote" : jobData.location,
       companyId: companyInfo.id,
       status: "active",
       isPubliclyVisible: true,
@@ -93,12 +87,15 @@ export default function PostJobPage() {
     setSubmitting(true);
 
     try {
-      const res = await createJob(jobData);
-      console.log("Job Submitted Successfully:", res || jobData);
+      // Server Action
+      const res = await createJob(payload);
+      
+      console.log("Job Submitted Successfully:", res || payload);
       toast.success("Job posted successfully!");
+      
       formElement.reset();
       setIsRemote(false); 
-      router.push("/dashboard/recruiter");
+      router.push("/dashboard/recruiter/jobs");
 
     } catch (err) {
       console.error("Error posting job:", err);
