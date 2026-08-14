@@ -16,6 +16,7 @@ import {
   XCircle,
   FileText,
 } from "lucide-react";
+import { createCompany } from "@/lib/actions/companies";
 
 // Input Styling strictly matching your provided style format
 const labelStyles = "block text-xs font-medium text-zinc-300 mb-1.5";
@@ -131,6 +132,9 @@ export default function CompanyPage() {
       };
 
       setCompany(savedCompany);
+
+      const payload = await createCompany(savedCompany);
+
       setIsFormOpen(false);
     } catch (err) {
       console.error(err);
