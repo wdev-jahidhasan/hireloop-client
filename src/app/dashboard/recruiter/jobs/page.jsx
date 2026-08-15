@@ -2,10 +2,12 @@ import { Table } from "@heroui/react";
 import { getCompanyJobs } from "@/lib/api/jobs";
 import React from "react";
 import { Eye, Edit, Trash2 } from "lucide-react";
+import { getLoggedInRecruiterCompany } from "@/lib/api/companies";
 
 const RecruiterJobs = async () => {
-  const companyId = "comp_123";
-  const jobs = await getCompanyJobs(companyId);
+  const company = await getLoggedInRecruiterCompany();
+
+  const jobs = await getCompanyJobs(company._id) || [];
 
   return (
     <div className="p-6">
@@ -25,7 +27,7 @@ const RecruiterJobs = async () => {
             <Table.Body emptyContent={"No jobs found."}>
               {jobs?.map((job) => (
                 <Table.Row key={job.id || job._id}>
-                  <Table.Cell>{job.companyId || job.companyName || "N/A"}</Table.Cell>
+                  <Table.Cell>{job.companyName || job.companyId || "N/A"}</Table.Cell>
                   <Table.Cell>{job.title || job.jobTitle}</Table.Cell>
                   <Table.Cell>{job.type || job.employmentType}</Table.Cell>
                   <Table.Cell>{job.location || job.workMode}</Table.Cell>
