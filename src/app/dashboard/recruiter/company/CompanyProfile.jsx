@@ -23,9 +23,9 @@ const labelStyles = "block text-xs font-medium text-zinc-300 mb-1.5";
 const inputStyles =
   "w-full px-3 py-2.5 rounded-lg bg-[#27272a] border border-[#3f3f46] text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-400 transition-colors";
 
-export default function CompanyProfile({ recruiter }) {
+export default function CompanyProfile({ recruiter, recruiterCompany }) {
   // 1. Initial State dynamic/null রাখা হয়েছে (নতুন ইউজারের কোনো কোম্পানি থাকবে না)
-  const [company, setCompany] = useState(null);
+  const [company, setCompany] = useState(recruiterCompany);
   const [loading, setLoading] = useState(false); // Backend থেকে ডাটা লোড হওয়ার স্টেট
 
   // 2. Form & View Control States
